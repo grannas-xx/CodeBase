@@ -1,0 +1,91 @@
+#Update the system
+sudo apt-get update
+
+#get the feh software
+sudo apt-get install feh
+
+#Get Samba and lib… I am not using leafpad when I am on remote ssh-access I am using "nano" editor in all cases bellow.
+
+sudo apt-get install samba
+
+sudo apt-get intall samba-common-bin
+
+sudo leafpad /etc/default/keyboard
+
+
+#Change keyboard settings if needed
+change keybord settings from "uk" to "us"
+
+#mkdir dir for pictureframe
+sudo mkdir -p /home/pi/frame/photos
+
+#create the script that will run the slideshow
+cd frame
+sudo leafpad start_frame.sh
+
+file:
+#!/bin/sh
+DELAY="5"
+/usr/bin/feh --quiet --recursive --randomize --full-screen --zoom max --hide-pointer --slideshow-delay $DELAY /home/pi/frame/photos
+
+save the file
+
+#make the script executable
+sudo chmod +x start_frame.sh
+
+look for different collor when do ls and look at the script in terminal. Only works on local terminal not from terminal in mac that I am using for remote ssh access…..
+
+#Autostart add bellow to file autostart
+sudo leafpad /etc/xdg/lxsession/LXDE/autostart
+
+put in the file
+/home/pi/frame/start_frame.sh
+save the file
+
+#Configure the Samba settings for file share
+sudo leafpad /etc/samba/smb.conf
+
+change the workgroup to make it visible on the windows workgroup
+workgroup = WORKGROUP
+
+ADD 
+[Photos]
+comment = Photo Share
+path = /home/pi/frame/photos
+writable = yes
+guest ok = no
+read only = no
+only guest = yes
+create mask = 0644
+direcoty mask = 0755
+browseable = yes
+public = yes
+force user = Administrator
+force group = Administrator
+
+#restart samba after this
+sudo service samba restart
+
+#give samba share right permissions
+sudo chmod 0777 /home/pi/frame/photos
+
+#add a user to access the files with samba
+sudo useradd -s /bin/true Administrator
+
+#set password for
+sudo smbpasswd -a Administrator
+put in the password raspberry
+
+#tell screensaver not to go blank
+sudo apt-get install xscreensaver
+gui preferences change settings in the screensaver
+change to disable screen saver
+
+#access samba pi share from win
+\\raspberrypi
+u see the Photos share
+right click and map network drive or use netuse command
+
+select some files and go
+
+#restart your raspberry pi
