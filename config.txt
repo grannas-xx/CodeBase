@@ -46,3 +46,5 @@ hdmi_group=1   CEA
 hdmi_mode=15
 
 # for more options see http://elinux.org/RPi_config.txt
+
+## Test to add code for repository sync in Github
