@@ -40,7 +40,7 @@
 
 #hdmi_group=1   CEA
 #hdmi_mode=31   1080p 50Hz
-display_rotate=1        90 degrees
+#display_rotate=1        90 degrees
 
 hdmi_group=1   CEA
 hdmi_mode=15
